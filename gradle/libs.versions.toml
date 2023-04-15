@@ -1,0 +1,33 @@
+[versions]
+kotlin = "1.8.20"
+ksp = "1.8.20-1.0.10"
+atomicfu = "0.20.0"
+coroutines = "1.6.4"
+mutekt = "1.0.0-ios"
+ktor = "2.2.4"
+coil = "2.3.0"
+activity = "1.6.1"
+appcompat = "1.6.1"
+core = "1.9.0"
+
+[libraries]
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core" }
+
+kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }
+
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+
+mutekt-core = { module = "dev.shreyaspatil.mutekt:mutekt-core", version.ref = "mutekt" }
+mutekt-codegen = { module = "dev.shreyaspatil.mutekt:mutekt-codegen", version.ref = "mutekt" }
