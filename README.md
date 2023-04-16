@@ -6,11 +6,10 @@ Foodium is a simple and sample _mobile application_ built to demonstrate the use
 _**Kotlin Multiplatform Mobile**_ for developing _Android and iOS_ applications
 using **Jetpack Compose** 🚀.
 
-|           |   |
+| Platforms | ![](https://img.shields.io/badge/Android-black.svg?style=for-the-badge&logo=android) ![](https://img.shields.io/badge/iOS-black.svg?style=for-the-badge&logo=apple)  |
 |-----------|---|
 | Status    | [![Build](https://github.com/PatilShreyas/Foodium-KMM/actions/workflows/build.yml/badge.svg)](https://github.com/PatilShreyas/Foodium-KMM/actions/workflows/build.yml)  |
-| Stack     | ![](https://img.shields.io/badge/Kotlin%20Multiplatform-7F52FF.svg?style=flat-square&logo=kotlin&logoColor=white) ![](https://img.shields.io/badge/Jetpack%20Compose-4285F4.svg?style=flat-square&logo=jetpack%20compose&logoColor=white) ![](https://img.shields.io/badge/Ktor%20HTTP%20Client-orange.svg?style=flat-square&logo=jetbrains&logoColor=white)  |
-| Platforms | ![](https://img.shields.io/badge/Android-black.svg?style=for-the-badge&logo=android) ![](https://img.shields.io/badge/iOS-black.svg?style=for-the-badge&logo=apple)  |
+
 
 ## About 
 
@@ -33,10 +32,23 @@ https://user-images.githubusercontent.com/19620536/232288185-fff651ef-1acc-4b68-
 
 ---
 
-Currently, it only shows a one Home screen with listing of posts. The following features will be
-integrated in the app and _Work is in Progress..._
+## Built with 
+
+- [Kotlin](kotlinlang.org): Programming language
+- [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html): For building multi-platform applications in the single codebase.
+- [Jetpack/JetBrains Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/): For a shared UI between multi-platforms i.e. Android and iOS in this project.
+- Kotlinx
+  - [Coroutines](https://github.com/Kotlin/kotlinx.coroutines): For multithreading
+  - [Serialization](https://github.com/Kotlin/kotlinx.serialization): For JSON serialization/deserailization
+- [Ktor Client](https://github.com/ktorio/ktor): Performing HTTP requests, Creating image loading utility for iOS module.
+- [Coil](https://github.com/coil-kt/coil): Image loading for Android
+- [Mutekt](https://github.com/PatilShreyas/mutekt): For UI state management 
+
 
 ### TODOs
+
+Currently, it only shows a one Home screen with listing of posts. The following features will be
+integrated in the app and _Work is in Progress..._
 
 #### ✅ Completed
 - [x] Home screen UI
