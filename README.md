@@ -45,17 +45,17 @@ https://user-images.githubusercontent.com/19620536/232288185-fff651ef-1acc-4b68-
 - [Mutekt](https://github.com/PatilShreyas/mutekt): For UI state management 
 
 
-### TODOs
+## TODOs
 
 Currently, it only shows a one Home screen with listing of posts. The following features will be
 integrated in the app and _Work is in Progress..._
 
-#### ✅ Completed
+### ✅ Completed
 - [x] Home screen UI
 - [x] Load posts from network
 - [x] Load images from network
 
-#### 🚧 Work in progress
+### 🚧 Work in progress
 - [ ] Details screen UI
 - [ ] Offline capability: Store posts data in local cache (Use SQLDelight)
 - [ ] Use navigation framework
