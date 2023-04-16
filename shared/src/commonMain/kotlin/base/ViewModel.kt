@@ -43,6 +43,10 @@ abstract class ViewModel<STATE>(protected val viewModelScope: CoroutineScope) {
 /**
  * The factory for creating instance of [ViewModel] in the composition.
  *
+ * THIS APPROACH IS NOT LOOKING MUCH GOOD. SO NEED TO FIND SOMETHING WHICH MIGHT BE RELIABLE.
+ * TILL THE TIME, LET THIS BE THE EXPERIMENTAL IMPLEMENTATION.
+ * TODO: Use something better approach
+ *
  * @param provideViewModel Lambda factory for creating ViewModel
  */
 @Composable
