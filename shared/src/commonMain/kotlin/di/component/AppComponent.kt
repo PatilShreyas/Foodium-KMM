@@ -15,6 +15,7 @@
  */
 package di.component
 
+import data.datasource.remote.PostRemoteDataSource
 import data.repository.impl.PostRepositoryImpl
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -38,9 +39,9 @@ interface AppComponent {
  * Default implementation of [AppComponent]
  */
 internal class DefaultAppComponent : AppComponent {
-    val postRepository by lazy {
-        PostRepositoryImpl(httpClient = provideHttpClient())
-    }
+    val postRepository by lazy { PostRepositoryImpl(dataSource) }
+
+    private val dataSource by lazy { PostRemoteDataSource(provideHttpClient()) }
 
     private fun provideHttpClient(): HttpClient = HttpClient {
         install(ContentNegotiation) {
