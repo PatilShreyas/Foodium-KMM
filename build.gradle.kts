@@ -16,7 +16,7 @@ subprojects {
             targetExclude("$buildDir/**/*.kt")
             targetExclude("bin/**/*.kt")
 
-            ktlint()
+            ktlint().editorConfigOverride(mapOf("disabled_rules" to "filename"))
             licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
         }
         kotlinGradle {
