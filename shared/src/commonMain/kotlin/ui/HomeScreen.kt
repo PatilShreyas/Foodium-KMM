@@ -32,7 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import base.viewModelFactory
-import di.AppComponent
+import di.component.AppComponent
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import utils.accompanist.placeholder.PlaceholderHighlight
@@ -147,5 +147,5 @@ fun ErrorContent(errorMessage: String) {
 
 @Composable
 fun rememberHomeViewModel(): HomeViewModel {
-    return viewModelFactory { scope -> AppComponent.get().provideHomeViewModel(scope) }
+    return viewModelFactory { scope -> AppComponent.viewModelComponent.provideHomeViewModel(scope) }
 }
