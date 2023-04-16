@@ -31,15 +31,23 @@ kotlin {
         val commonMain by getting {
             kotlin.srcDirs("build/generated/ksp/metadata/commonMain/kotlin")
             dependencies {
+                // Compose
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.ui)
-                implementation(libs.kotlinx.atomicfu)
-                implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.mutekt.core)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+
+                // Mutekt
+                implementation(libs.mutekt.core)
+
+                // KotlinX
+                implementation(libs.kotlinx.coroutines.core)
+                // This is not needed, but included to fix issue with compilation due to old version.
+                implementation(libs.kotlinx.atomicfu)
+
+                // Ktor
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.client.serialization.json)
@@ -47,11 +55,18 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                // KotlinX
+                api(libs.kotlinx.coroutines.android)
+
+                // Android
                 api(libs.androidx.activity.compose)
                 api(libs.androidx.appcompat)
                 api(libs.androidx.core.ktx)
+
+                // Ktor
                 api(libs.ktor.client.okhttp)
-                api(libs.kotlinx.coroutines.android)
+
+                // Utils
                 api(libs.coil.compose)
             }
         }
