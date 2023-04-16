@@ -35,6 +35,20 @@ integrated in the app and _Work is in Progress..._
 - [ ] Use navigation framework
 - [ ] Switch for dark/light theme.
 
+### 📱 Preview
+
+Currently, the app looks like this on the both platforms:
+
+#### ▶️ Android
+
+https://user-images.githubusercontent.com/19620536/232288166-5ca48ebc-b36f-43f3-b759-471834b31c2f.mp4
+
+#### ▶️ iOS
+
+https://user-images.githubusercontent.com/19620536/232288185-fff651ef-1acc-4b68-92e7-d88a0a4e1f4a.mp4
+
+---
+
 ## Contribute
 
 If you want to contribute to this library, you're always welcome!
