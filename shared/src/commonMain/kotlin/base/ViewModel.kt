@@ -52,7 +52,7 @@ abstract class ViewModel<STATE>(protected val viewModelScope: CoroutineScope) {
 @Composable
 fun <VM : ViewModel<STATE>, STATE> viewModelFactory(provideViewModel: (CoroutineScope) -> VM): VM {
     val viewModelScope = remember { ViewModelCoroutineScope() }
-    val viewModel = rememberSaveable { provideViewModel(viewModelScope) }
+    val viewModel = remember { provideViewModel(viewModelScope) }
 
     DisposableEffect(true) {
         onDispose {
