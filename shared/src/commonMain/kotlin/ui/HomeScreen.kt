@@ -63,7 +63,7 @@ fun HomeScreen() {
     HomeContent(
         isLoading = state.isLoading,
         posts = state.posts,
-        errorMessage = state.errorMessage
+        errorMessage = state.errorMessage,
     )
 }
 
