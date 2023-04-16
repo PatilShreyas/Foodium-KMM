@@ -48,8 +48,6 @@ fun HomeScreen() {
     HomeContent(state.isLoading, state.posts, state.errorMessage)
 }
 
-private val loadingPostCards = List(6) { HomeState.Post(it, "", "", "") }
-
 @Composable
 fun HomeContent(isLoading: Boolean, posts: List<HomeState.Post>, errorMessage: String?) {
     Column(Modifier.fillMaxSize()) {
@@ -149,3 +147,9 @@ fun ErrorContent(errorMessage: String) {
 fun rememberHomeViewModel(): HomeViewModel {
     return viewModelFactory { scope -> AppComponent.viewModelComponent.provideHomeViewModel(scope) }
 }
+
+
+/**
+ * Dummy posts for showing shimmer animation while posts are loading
+ */
+private val loadingPostCards = List(6) { HomeState.Post(it, "", "", "") }

@@ -6,6 +6,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+/**
+ * The ViewModel for home screen UI
+ */
 class HomeViewModel(
     coroutineScope: CoroutineScope,
     private val repository: PostRepository

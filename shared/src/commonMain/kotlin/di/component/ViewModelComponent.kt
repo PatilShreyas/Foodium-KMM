@@ -3,6 +3,9 @@ package di.component
 import kotlinx.coroutines.CoroutineScope
 import ui.HomeViewModel
 
+/**
+ * DI component for providing [ViewModel]s
+ */
 interface ViewModelComponent {
     fun provideHomeViewModel(coroutineScope: CoroutineScope): HomeViewModel
 }

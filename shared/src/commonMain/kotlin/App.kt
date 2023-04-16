@@ -4,6 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import ui.HomeScreen
 
+/**
+ * Entry point of the application.
+ */
 @Composable
 fun App() {
     MaterialTheme(lightColors(primary = Color.Black)) {

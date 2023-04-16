@@ -3,6 +3,9 @@ package ui
 import androidx.compose.runtime.Immutable
 import dev.shreyaspatil.mutekt.core.annotations.GenerateMutableModel
 
+/**
+ * The UI state of Home screen
+ */
 @GenerateMutableModel
 interface HomeState {
     val isLoading: Boolean

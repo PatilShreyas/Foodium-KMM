@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -22,6 +21,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jetbrains.skia.Image
 
+/**
+ * Implementation of [AsyncImage] for iOS platform.
+ */
 @Composable
 actual fun AsyncImage(
     imageUrl: String?,
@@ -61,6 +63,9 @@ actual fun AsyncImage(
     }
 }
 
+/**
+ * Remembers the state of an image in the composition with [url]
+ */
 @Composable
 private fun rememberImageState(url: String?): State<ImageState> {
     val initialState = if (url == null) ImageState.Error else ImageState.Loading
@@ -68,7 +73,7 @@ private fun rememberImageState(url: String?): State<ImageState> {
         if (url != null) {
             value = ImageState.Loading
             runCatching {
-                value = ImageState.Success(ImageRepository.getImageBitmap(url))
+                value = ImageState.Success(ImageRepository.getImageBitmapByUrl(url))
             }.getOrElse {
                 value = ImageState.Error
             }
@@ -76,12 +81,24 @@ private fun rememberImageState(url: String?): State<ImageState> {
     }
 }
 
+/**
+ * The single source of truth for images
+ */
 object ImageRepository {
-    val client = HttpClient()
+    private val client = HttpClient()
 
+    /**
+     * Cache of images loaded in the current session.
+     */
     private val inMemoryCache = mutableMapOf<String, ByteArray>()
 
-    suspend fun getImageBitmap(url: String): ImageBitmap {
+    /**
+     * Loads [ImageBitmap] from the specified [url].
+     *
+     * If image was already loaded with this [url] then it picks it from [inMemoryCache] otherwise
+     * loads it from the network and stores it in the cache.
+     */
+    suspend fun getImageBitmapByUrl(url: String): ImageBitmap {
         val bytes = inMemoryCache.getOrPut(url) { client.get(url).readBytes() }
         val bitmap = withContext(Dispatchers.Default) {
             Image.makeFromEncoded(bytes).toComposeImageBitmap()

@@ -8,6 +8,9 @@ import io.ktor.client.statement.bodyAsText
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
+/**
+ * Default implementation for [PostRepository] that refers to the network as a data source
+ */
 internal class PostRepositoryImpl(private val httpClient: HttpClient) : PostRepository {
     override suspend fun getAllPosts(): List<Post> {
         return httpClient.get(GET_ALL_POSTS_URL).bodyAsText().let { json ->
