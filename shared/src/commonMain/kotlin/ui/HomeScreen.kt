@@ -60,7 +60,11 @@ fun HomeScreen() {
     val viewModel = rememberHomeViewModel()
     val state by viewModel.state.collectAsState()
 
-    HomeContent(state.isLoading, state.posts, state.errorMessage)
+    HomeContent(
+        isLoading = state.isLoading,
+        posts = state.posts,
+        errorMessage = state.errorMessage
+    )
 }
 
 @Composable
