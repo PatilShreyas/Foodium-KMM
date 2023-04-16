@@ -1,3 +1,18 @@
+/**
+ * Copyright 2023 Shreyas Patil
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package ui
 
 import androidx.compose.animation.Crossfade
@@ -59,10 +74,11 @@ fun HomeContent(isLoading: Boolean, posts: List<HomeState.Post>, errorMessage: S
                 LazyColumn(Modifier.fillMaxSize()) {
                     items(
                         items = if (isLoading) loadingPostCards else posts,
-                        key = { it.id }) { post ->
+                        key = { it.id },
+                    ) { post ->
                         PostCard(
                             isLoading = isLoading,
-                            post = post
+                            post = post,
                         )
                     }
                 }
@@ -80,7 +96,7 @@ fun PostCard(isLoading: Boolean, post: HomeState.Post, modifier: Modifier = Modi
                     text = post.title,
                     style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Bold),
                     modifier = Modifier.fillMaxWidth()
-                        .placeholder(isLoading, highlight = PlaceholderHighlight.shimmer())
+                        .placeholder(isLoading, highlight = PlaceholderHighlight.shimmer()),
                 )
                 Spacer(Modifier.height(12.dp))
                 Text(
@@ -88,10 +104,10 @@ fun PostCard(isLoading: Boolean, post: HomeState.Post, modifier: Modifier = Modi
                     style = MaterialTheme.typography.subtitle2.copy(
                         color = Color.Gray,
                         fontStyle = FontStyle.Italic,
-                        fontWeight = FontWeight.Light
+                        fontWeight = FontWeight.Light,
                     ),
                     modifier = Modifier.fillMaxWidth()
-                        .placeholder(isLoading, highlight = PlaceholderHighlight.shimmer())
+                        .placeholder(isLoading, highlight = PlaceholderHighlight.shimmer()),
                 )
             }
 
@@ -104,7 +120,7 @@ fun PostCard(isLoading: Boolean, post: HomeState.Post, modifier: Modifier = Modi
                 loadingPlaceholder = {
                     Box(
                         Modifier.matchParentSize()
-                            .placeholder(true, highlight = PlaceholderHighlight.shimmer())
+                            .placeholder(true, highlight = PlaceholderHighlight.shimmer()),
                     )
                 },
                 errorPlaceholder = {
@@ -113,10 +129,10 @@ fun PostCard(isLoading: Boolean, post: HomeState.Post, modifier: Modifier = Modi
                             text = "X",
                             modifier = Modifier.align(Alignment.Center),
                             fontSize = 32.sp,
-                            color = Color.White
+                            color = Color.White,
                         )
                     }
-                }
+                },
             )
         }
     }
@@ -132,14 +148,14 @@ fun ErrorContent(errorMessage: String) {
         color = Color.Red,
         modifier = Modifier.fillMaxWidth(),
         textAlign = TextAlign.Center,
-        fontWeight = FontWeight.Bold
+        fontWeight = FontWeight.Bold,
     )
     Spacer(Modifier.height(8.dp))
     Text(
         errorMessage,
         color = Color.Black,
         modifier = Modifier.fillMaxWidth(),
-        textAlign = TextAlign.Center
+        textAlign = TextAlign.Center,
     )
 }
 
@@ -147,7 +163,6 @@ fun ErrorContent(errorMessage: String) {
 fun rememberHomeViewModel(): HomeViewModel {
     return viewModelFactory { scope -> AppComponent.viewModelComponent.provideHomeViewModel(scope) }
 }
-
 
 /**
  * Dummy posts for showing shimmer animation while posts are loading

@@ -13,22 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package di.component
+package ui
 
-import kotlinx.coroutines.CoroutineScope
-import ui.HomeViewModel
+import androidx.compose.runtime.Immutable
+import dev.shreyaspatil.mutekt.core.annotations.GenerateMutableModel
 
 /**
- * DI component for providing [ViewModel]s
+ * The UI state of Home screen
  */
-interface ViewModelComponent {
-    fun provideHomeViewModel(coroutineScope: CoroutineScope): HomeViewModel
-}
+@GenerateMutableModel
+interface HomeState {
+    val isLoading: Boolean
+    val posts: List<Post>
+    val errorMessage: String?
 
-internal class DefaultViewModelComponent(
-    private val appComponent: DefaultAppComponent,
-) : ViewModelComponent {
-    override fun provideHomeViewModel(coroutineScope: CoroutineScope): HomeViewModel {
-        return HomeViewModel(coroutineScope, appComponent.postRepository)
-    }
+    @Immutable
+    data class Post(val id: Int, val title: String, val author: String, val imageUrl: String?)
 }

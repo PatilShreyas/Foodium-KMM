@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Shreyas Patil
+ * Copyright $YEAR Shreyas Patil
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,22 +13,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package base
-
-import io.ktor.utils.io.core.Closeable
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
-import kotlin.coroutines.CoroutineContext
-
-/**
- * Coroutine scope for [ViewModel]
- */
-class ViewModelCoroutineScope : Closeable, CoroutineScope {
-    override val coroutineContext: CoroutineContext = SupervisorJob() + Dispatchers.Main.immediate
-
-    override fun close() {
-        coroutineContext.cancel()
-    }
-}
