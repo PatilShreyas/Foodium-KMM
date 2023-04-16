@@ -29,6 +29,9 @@ import kotlinx.coroutines.flow.StateFlow
  * @property viewModelScope The coroutine scope which will be bound with the UI lifecycle
  */
 abstract class ViewModel<STATE>(protected val viewModelScope: CoroutineScope) {
+    /**
+     * The reactive state of a UI
+     */
     abstract val state: StateFlow<STATE>
 
     /**
