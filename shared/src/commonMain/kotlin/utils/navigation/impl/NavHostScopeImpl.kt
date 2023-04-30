@@ -18,12 +18,12 @@ package utils.navigation.impl
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import kotlin.reflect.KClass
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import utils.navigation.NavHostScope
 import utils.navigation.NavStackEntry
 import utils.navigation.NavigationController
+import kotlin.reflect.KClass
 
 /**
  * Default implementation of [NavHostScope]
