@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ui
+package ui.screen.home
 
 import base.ViewModel
 import data.repository.PostRepository
