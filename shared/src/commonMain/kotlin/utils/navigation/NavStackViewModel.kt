@@ -26,9 +26,9 @@ inline fun <VM : ViewModel<STATE>, STATE> NavStackEntry<*>.navStackViewModel(
     key: Any? = null,
     noinline provider: @DisallowComposableCalls (CoroutineScope) -> VM,
 ): VM {
-    val extra = key?.toString() ?: "default"
+    val vmkey = "viewModel-${key?.toString() ?: ""}"
     return rememberInNavStack(
-        key = "viewModel-$extra",
+        key = vmkey,
         compute = { viewModelFactory(provider) },
         onDispose = { vm -> vm.onCleared() },
     )
