@@ -25,4 +25,9 @@ interface PostRepository {
      * Retrieves all the posts
      */
     suspend fun getAllPosts(): List<Post>
+
+    /**
+     * Searches for the post by [id] and returns
+     */
+    suspend fun findPostById(id: Int): Post?
 }

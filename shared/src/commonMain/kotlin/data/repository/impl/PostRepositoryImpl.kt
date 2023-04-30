@@ -15,17 +15,24 @@
  */
 package data.repository.impl
 
+import data.datasource.cache.PostCacheDataSource
 import data.datasource.remote.PostRemoteDataSource
 import data.model.Post
 import data.repository.PostRepository
-import io.ktor.client.request.get
 
 /**
  * Default implementation for [PostRepository] that refers to the [PostRemoteDataSource] as
  * a data source
  */
-internal class PostRepositoryImpl(private val dataSource: PostRemoteDataSource) : PostRepository {
+internal class PostRepositoryImpl(
+    private val remoteDataSource: PostRemoteDataSource,
+    private val cacheDataSource: PostCacheDataSource,
+) : PostRepository {
     override suspend fun getAllPosts(): List<Post> {
-        return dataSource.getAllPosts()
+        return remoteDataSource.getAllPosts().also { cacheDataSource.addAllPosts(it) }
+    }
+
+    override suspend fun findPostById(id: Int): Post? {
+        return cacheDataSource.findPostById(id)
     }
 }
