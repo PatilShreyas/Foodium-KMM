@@ -41,7 +41,7 @@ fun FoodiumNavGraph() {
 
         OnState<Screen.Detail> {
             val postId = it.state.postId
-            val viewModel = it.navStackViewModel {
+            val viewModel = it.navStackViewModel(key = postId) {
                 AppComponent.viewModelComponent.providePostDetailViewModel(it, postId)
             }
 
