@@ -66,7 +66,11 @@ fun PostCard(isLoading: Boolean, post: HomeState.Post, modifier: Modifier = Modi
                 )
             }
 
-            PostGraphicImage(post.imageUrl, modifier.size(100.dp))
+            PostGraphicImage(
+                url = post.imageUrl,
+                modifier = modifier.size(100.dp)
+                    .placeholder(isLoading, highlight = PlaceholderHighlight.shimmer()),
+            )
         }
     }
 }
