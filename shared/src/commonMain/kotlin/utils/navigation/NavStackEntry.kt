@@ -52,5 +52,5 @@ inline fun <T : Any> NavStackEntry<*>.rememberInNavStack(
     noinline compute: @DisallowComposableCalls () -> T,
     noinline onDispose: @DisallowComposableCalls (T) -> Unit = {},
 ): T {
-    return remember(key, compute, onDispose) { getOrPut(key, compute, onDispose) }
+    return remember { getOrPut(key, compute, onDispose) }
 }
