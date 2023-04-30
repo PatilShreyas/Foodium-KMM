@@ -28,6 +28,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
+import kotlinx.coroutines.flow.onSubscription
 import utils.appfinisher.LocalAppFinisher
 import utils.backhandler.BackHandler
 import utils.navigation.impl.NavHostScopeImpl
@@ -109,19 +110,21 @@ private fun <STATE : Any> rememberNavState(
     return produceState<NavState<STATE>?>(
         key1 = navigationController,
         key2 = initialState,
-        initialValue = NavState(initialState, NavigationAnimation.NO_ANIMATION),
+        initialValue = null,
     ) {
-        if (navigationController.backStackSize == 0) {
-            navigationController.navigateTo(initialState)
-        }
-        navigationController.events.collect { event ->
-            val animation = when (event) {
-                is NavigationEvents.InitialState -> NavigationAnimation.NO_ANIMATION
-                is NavigationEvents.OnNavigateTo -> NavigationAnimation.NAVIGATING
-                is NavigationEvents.OnPopUp -> NavigationAnimation.POPPING_UP
-                is NavigationEvents.OnStackEmpty -> NavigationAnimation.EXIT
+        navigationController.events
+            .onSubscription {
+                if (navigationController.backStackSize == 0) {
+                    navigationController.navigateTo(initialState)
+                }
+            }.collect { event ->
+                val animation = when (event) {
+                    is NavigationEvents.InitialState -> NavigationAnimation.NO_ANIMATION
+                    is NavigationEvents.OnNavigateTo -> NavigationAnimation.NAVIGATING
+                    is NavigationEvents.OnPopUp -> NavigationAnimation.POPPING_UP
+                    is NavigationEvents.OnStackEmpty -> NavigationAnimation.EXIT
+                }
+                value = NavState(event.state, animation)
             }
-            value = NavState(event.state, animation)
-        }
     }
 }
