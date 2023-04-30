@@ -40,6 +40,7 @@ internal class NavHostScopeImpl<STATE : Any>(
         observeNavigationEventsForValueStoreCleanup()
     }
 
+    @Suppress("UNCHECKED_CAST")
     @Composable
     fun compose(state: STATE) {
         val stateClass = state::class

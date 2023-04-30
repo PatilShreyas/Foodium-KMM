@@ -25,6 +25,7 @@ internal class NavStackEntryImpl<STATE : Any>(override val state: STATE) : NavSt
     private val store = mutableStateMapOf<Any, StoreValueHolder<*>>()
     private var isDisposed = false
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : Any> getOrPut(key: Any, compute: () -> T, onDispose: (T) -> Unit): T {
         if (isDisposed) {
             error("The NavStackEntry(state=$state) is already disposed")
