@@ -30,7 +30,7 @@ sealed interface Screen {
         }
 
         override fun hashCode(): Int {
-            return super.hashCode()
+            return "home".hashCode()
         }
     }
 
