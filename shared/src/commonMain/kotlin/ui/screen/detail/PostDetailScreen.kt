@@ -136,14 +136,14 @@ private fun TopBarContent(
                     )
                 }
             },
-            backgroundColor = Color.Black,
+            backgroundColor = Color.Black.copy(alpha = alphaPerScroll),
             elevation = 0.dp,
             navigationIcon = {
                 IconButton(onClick = onBackClick) {
                     Icon(Icons.Default.ArrowBackIosNew, "Navigate back", tint = Color.White)
                 }
             },
-            modifier = Modifier.align(Alignment.TopCenter).alpha(alphaPerScroll),
+            modifier = Modifier.align(Alignment.TopCenter),
         )
     }
 }
