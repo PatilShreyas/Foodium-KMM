@@ -16,6 +16,7 @@
 package utils.navigation.impl
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.CoroutineScope
@@ -60,7 +61,7 @@ internal class NavHostScopeImpl<STATE : Any>(
         key: KClass<S>,
         block: @Composable (entry: NavStackEntry<S>) -> Unit,
     ) {
-        composerByState[key] = Composer(block)
+        composerByState[key] = Composer(movableContentOf(block))
     }
 
     private fun observeNavigationEventsForValueStoreCleanup() {
