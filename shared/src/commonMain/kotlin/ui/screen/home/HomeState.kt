@@ -22,6 +22,7 @@ import dev.shreyaspatil.mutekt.core.annotations.GenerateMutableModel
  * The UI state of Home screen
  */
 @GenerateMutableModel
+@Immutable
 interface HomeState {
     val isLoading: Boolean
     val posts: List<Post>

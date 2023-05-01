@@ -19,6 +19,7 @@ import androidx.compose.runtime.Immutable
 import dev.shreyaspatil.mutekt.core.annotations.GenerateMutableModel
 
 @GenerateMutableModel
+@Immutable
 interface PostDetailState {
     val isLoading: Boolean
     val post: Post?
