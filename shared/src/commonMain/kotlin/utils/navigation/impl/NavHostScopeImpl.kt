@@ -24,6 +24,7 @@ import utils.navigation.NavHostScope
 import utils.navigation.NavStackEntry
 import utils.navigation.NavigationController
 import kotlin.reflect.KClass
+import utils.navigation.WithNavStackEntry
 
 /**
  * Default implementation of [NavHostScope]
@@ -46,7 +47,10 @@ internal class NavHostScopeImpl<STATE : Any>(
         val stateClass = state::class
         val composable = composerByState[stateClass] as? Composer<STATE, STATE>
         if (composable != null) {
-            composable.compose(entry = inMemoryValueStore.get(forState = state))
+            val entry = inMemoryValueStore.get(forState = state)
+            WithNavStackEntry(entry) {
+                composable.compose(entry = entry)
+            }
         } else {
             throw IllegalStateException("State is not defined for type '$stateClass'")
         }
