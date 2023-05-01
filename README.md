@@ -24,11 +24,11 @@ Currently, the app looks like this on the both platforms:
 
 #### ▶️ Android
 
-https://user-images.githubusercontent.com/19620536/232288166-5ca48ebc-b36f-43f3-b759-471834b31c2f.mp4
+https://user-images.githubusercontent.com/19620536/235439485-b2d0e7c9-e7fd-4313-adbc-aa259aaed6ec.mp4
 
 #### ▶️ iOS
 
-https://user-images.githubusercontent.com/19620536/232288185-fff651ef-1acc-4b68-92e7-d88a0a4e1f4a.mp4
+https://user-images.githubusercontent.com/19620536/235439532-457f0ccf-d18f-467d-a3c8-8b2fc45d6e01.mp4
 
 ---
 
@@ -54,11 +54,12 @@ integrated in the app and _Work is in Progress..._
 - [x] Home screen UI
 - [x] Load posts from network
 - [x] Load images from network
+- [x] Use navigation framework
+- [x] Details screen UI
 
 ### 🚧 Work in progress
-- [ ] Details screen UI
+
 - [ ] Offline capability: Store posts data in local cache (Use SQLDelight)
-- [ ] Use navigation framework
 - [ ] Switch for dark/light theme.
 
 ## Setting up project 👨🏻‍💻

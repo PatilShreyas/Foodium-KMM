@@ -16,13 +16,15 @@
 package di.component
 
 import kotlinx.coroutines.CoroutineScope
-import ui.HomeViewModel
+import ui.screen.detail.PostDetailViewModel
+import ui.screen.home.HomeViewModel
 
 /**
  * DI component for providing [ViewModel]s
  */
 interface ViewModelComponent {
     fun provideHomeViewModel(coroutineScope: CoroutineScope): HomeViewModel
+    fun providePostDetailViewModel(coroutineScope: CoroutineScope, postId: Int): PostDetailViewModel
 }
 
 internal class DefaultViewModelComponent(
@@ -30,5 +32,16 @@ internal class DefaultViewModelComponent(
 ) : ViewModelComponent {
     override fun provideHomeViewModel(coroutineScope: CoroutineScope): HomeViewModel {
         return HomeViewModel(coroutineScope, appComponent.postRepository)
+    }
+
+    override fun providePostDetailViewModel(
+        coroutineScope: CoroutineScope,
+        postId: Int,
+    ): PostDetailViewModel {
+        return PostDetailViewModel(
+            viewModelScope = coroutineScope,
+            postId = postId,
+            repository = appComponent.postRepository,
+        )
     }
 }

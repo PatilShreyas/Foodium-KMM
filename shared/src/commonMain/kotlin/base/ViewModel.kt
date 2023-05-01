@@ -15,9 +15,6 @@
  */
 package base
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.remember
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.StateFlow
@@ -36,7 +33,9 @@ abstract class ViewModel<STATE>(protected val viewModelScope: CoroutineScope) {
     /**
      * Invoked when the [ViewModel] is no longer needed. Do clean-up stuff here.
      */
-    open fun onCleared() {}
+    open fun onCleared() {
+        viewModelScope.cancel()
+    }
 }
 
 /**
@@ -48,17 +47,7 @@ abstract class ViewModel<STATE>(protected val viewModelScope: CoroutineScope) {
  *
  * @param provideViewModel Lambda factory for creating ViewModel
  */
-@Composable
-fun <VM : ViewModel<STATE>, STATE> viewModelFactory(provideViewModel: (CoroutineScope) -> VM): VM {
-    val viewModelScope = remember { ViewModelCoroutineScope() }
-    val viewModel = remember { provideViewModel(viewModelScope) }
-
-    DisposableEffect(true) {
-        onDispose {
-            viewModelScope.cancel()
-            viewModel.onCleared()
-        }
-    }
-
-    return viewModel
+inline fun <VM : ViewModel<STATE>, STATE> viewModelFactory(provideViewModel: (CoroutineScope) -> VM): VM {
+    val viewModelScope = ViewModelCoroutineScope()
+    return provideViewModel(viewModelScope)
 }
