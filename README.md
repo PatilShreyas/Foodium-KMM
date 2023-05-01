@@ -54,11 +54,12 @@ integrated in the app and _Work is in Progress..._
 - [x] Home screen UI
 - [x] Load posts from network
 - [x] Load images from network
+- [x] Use navigation framework
+- [x] Details screen UI
 
 ### 🚧 Work in progress
-- [ ] Details screen UI
+
 - [ ] Offline capability: Store posts data in local cache (Use SQLDelight)
-- [ ] Use navigation framework
 - [ ] Switch for dark/light theme.
 
 ## Contribute
