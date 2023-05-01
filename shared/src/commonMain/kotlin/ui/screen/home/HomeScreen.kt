@@ -15,7 +15,6 @@
  */
 package ui.screen.home
 
-import Screen
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
@@ -38,27 +37,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import ui.component.ErrorContent
 import ui.component.PostCard
-import utils.navigation.NavStackEntry
 import utils.navigation.rememberInNavStack
 
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
-    onNavigateToDetail: (Int) -> Unit,
-    navStackEntry: NavStackEntry<Screen.Home>,
+    onNavigateToDetail: (Int) -> Unit
 ) {
     val state by viewModel.state.collectAsState()
-    val lazyListState = navStackEntry.rememberInNavStack(
-        key = "scrollState",
-        compute = { LazyListState() },
-    )
 
     HomeContent(
         isLoading = state.isLoading,
         posts = state.posts,
         errorMessage = state.errorMessage,
         onNavigateToDetail = onNavigateToDetail,
-        listState = lazyListState,
         onRefresh = viewModel::refresh
     )
 }
@@ -69,8 +61,7 @@ fun HomeContent(
     posts: List<HomeState.Post>,
     errorMessage: String?,
     onNavigateToDetail: (Int) -> Unit,
-    onRefresh: () -> Unit,
-    listState: LazyListState,
+    onRefresh: () -> Unit
 ) {
     Column(Modifier.fillMaxSize()) {
         TopAppBar(title = { Text("Foodium") })
@@ -80,7 +71,6 @@ fun HomeContent(
         } else {
             Crossfade(isLoading, animationSpec = tween(500)) { isLoading ->
                 PostListContent(
-                    listState = listState,
                     isLoading = isLoading,
                     posts = posts,
                     onNavigateToDetail = onNavigateToDetail,
@@ -94,7 +84,6 @@ fun HomeContent(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun PostListContent(
-    listState: LazyListState,
     isLoading: Boolean,
     posts: List<HomeState.Post>,
     onNavigateToDetail: (Int) -> Unit,
@@ -103,6 +92,11 @@ private fun PostListContent(
     val pullRefreshState = rememberPullRefreshState(
         refreshing = isLoading,
         onRefresh = onRefresh
+    )
+
+    val listState = rememberInNavStack(
+        key = "scrollState-$isLoading",
+        compute = { LazyListState() },
     )
 
     Box(Modifier.fillMaxSize().pullRefresh(pullRefreshState)) {
