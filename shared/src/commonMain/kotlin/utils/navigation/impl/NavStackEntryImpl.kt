@@ -21,7 +21,7 @@ import utils.navigation.NavStackEntry
 /**
  * Default implementation of [NavStackEntry]
  */
-internal class NavStackEntryImpl<STATE : Any>(override val state: STATE) : NavStackEntry<STATE> {
+internal data class NavStackEntryImpl<STATE : Any>(override val state: STATE) : NavStackEntry<STATE> {
     private val store = mutableStateMapOf<Any, StoreValueHolder<*>>()
     private var isDisposed = false
 
