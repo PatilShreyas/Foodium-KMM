@@ -62,6 +62,34 @@ integrated in the app and _Work is in Progress..._
 - [ ] Offline capability: Store posts data in local cache (Use SQLDelight)
 - [ ] Switch for dark/light theme.
 
+## Setting up project 👨🏻‍💻
+
+- Refer to the ***"Setting up environment"*** section of [this repository](https://github.com/JetBrains/compose-multiplatform-ios-android-template/main/README.md) 
+for knowing the setup guidelines
+- After validating requirements as per the above guide, clone this repository.
+- Open this project in Android Studio Electric Eel or newer version.
+- Build project 🔨 and see if everything is working fine.
+- Run App
+  - Select "androidApp" as run configuration and you'll be able to run the Android app.
+  - Select "iosApp" as run configuration and you'll be able to run the iOS app _(XCode can also be used to run the app)_.
+  
+## Project structure 
+
+This Compose Multiplatform project includes three modules:
+
+### [`shared`](/shared)
+This is a Kotlin module that contains the logic common for both Android and iOS applications, the code you share between platforms.
+This shared module is also where you write your Compose Multiplatform code. In `shared/src/commonMain/kotlin/App.kt`, you can find the shared root `@Composable` function for your app.
+It uses Gradle as the build system. You can add dependencies and change settings in `shared/build.gradle.kts`. The shared module builds into an Android library and an iOS framework.
+
+### [`androidApp`](/androidApp)
+This is a Kotlin module that builds into an Android application. It uses Gradle as the build system. The `androidApp` module depends on and uses the shared module as a regular Android library.
+
+### [`iosApp`](/iosApp)
+This is an Xcode project that builds into an iOS application. It depends on and uses the shared module as a CocoaPods dependency.
+
+---
+
 ## Contribute
 
 If you want to contribute to this library, you're always welcome!
