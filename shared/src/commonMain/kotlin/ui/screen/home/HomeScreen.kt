@@ -42,7 +42,7 @@ import utils.navigation.rememberInNavStack
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
-    onNavigateToDetail: (Int) -> Unit
+    onNavigateToDetail: (Int) -> Unit,
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -51,7 +51,7 @@ fun HomeScreen(
         posts = state.posts,
         errorMessage = state.errorMessage,
         onNavigateToDetail = onNavigateToDetail,
-        onRefresh = viewModel::refresh
+        onRefresh = viewModel::refresh,
     )
 }
 
@@ -61,7 +61,7 @@ fun HomeContent(
     posts: List<HomeState.Post>,
     errorMessage: String?,
     onNavigateToDetail: (Int) -> Unit,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
 ) {
     Column(Modifier.fillMaxSize()) {
         TopAppBar(title = { Text("Foodium") })
@@ -74,7 +74,7 @@ fun HomeContent(
                     isLoading = isLoading,
                     posts = posts,
                     onNavigateToDetail = onNavigateToDetail,
-                    onRefresh = onRefresh
+                    onRefresh = onRefresh,
                 )
             }
         }
@@ -87,11 +87,11 @@ private fun PostListContent(
     isLoading: Boolean,
     posts: List<HomeState.Post>,
     onNavigateToDetail: (Int) -> Unit,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
 ) {
     val pullRefreshState = rememberPullRefreshState(
         refreshing = isLoading,
-        onRefresh = onRefresh
+        onRefresh = onRefresh,
     )
 
     val listState = rememberInNavStack(
@@ -118,7 +118,7 @@ private fun PostListContent(
         PullRefreshIndicator(
             refreshing = isLoading,
             state = pullRefreshState,
-            modifier = Modifier.align(Alignment.TopCenter)
+            modifier = Modifier.align(Alignment.TopCenter),
         )
     }
 }

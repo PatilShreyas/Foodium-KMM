@@ -57,7 +57,6 @@ inline fun <T : Any> NavStackEntry<*>.rememberInNavStack(
     return remember(key) { getOrPut(key, compute, onDispose) }
 }
 
-
 /**
  * Remembers the value computed by [compute] with the specified [key] for the destination of this
  * composition's local [NavStackEntry].
@@ -68,7 +67,7 @@ inline fun <T : Any> NavStackEntry<*>.rememberInNavStack(
  * invoked for performing cleanup stuff.
  */
 @Composable
-inline fun <T: Any> rememberInNavStack(
+inline fun <T : Any> rememberInNavStack(
     key: Any,
     noinline compute: @DisallowComposableCalls () -> T,
     noinline onDispose: @DisallowComposableCalls (T) -> Unit = {},

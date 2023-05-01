@@ -23,8 +23,8 @@ import kotlinx.coroutines.launch
 import utils.navigation.NavHostScope
 import utils.navigation.NavStackEntry
 import utils.navigation.NavigationController
-import kotlin.reflect.KClass
 import utils.navigation.WithNavStackEntry
+import kotlin.reflect.KClass
 
 /**
  * Default implementation of [NavHostScope]
