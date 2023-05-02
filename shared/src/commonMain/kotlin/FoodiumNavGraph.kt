@@ -35,7 +35,6 @@ fun FoodiumNavGraph() {
             HomeScreen(
                 viewModel = viewModel,
                 onNavigateToDetail = { postId -> navController.navigateTo(Screen.Detail(postId)) },
-                it,
             )
         }
 

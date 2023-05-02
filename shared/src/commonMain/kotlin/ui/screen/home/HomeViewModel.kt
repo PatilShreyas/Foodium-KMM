@@ -39,6 +39,10 @@ class HomeViewModel(
         loadPosts()
     }
 
+    fun refresh() {
+        loadPosts()
+    }
+
     private fun loadPosts() {
         viewModelScope.launch {
             _state.isLoading = true

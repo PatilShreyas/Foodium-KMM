@@ -16,6 +16,7 @@
 package utils.navigation.impl
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.CoroutineScope
@@ -23,6 +24,7 @@ import kotlinx.coroutines.launch
 import utils.navigation.NavHostScope
 import utils.navigation.NavStackEntry
 import utils.navigation.NavigationController
+import utils.navigation.WithNavStackEntry
 import kotlin.reflect.KClass
 
 /**
@@ -46,7 +48,10 @@ internal class NavHostScopeImpl<STATE : Any>(
         val stateClass = state::class
         val composable = composerByState[stateClass] as? Composer<STATE, STATE>
         if (composable != null) {
-            composable.compose(entry = inMemoryValueStore.get(forState = state))
+            val entry = inMemoryValueStore.get(forState = state)
+            WithNavStackEntry(entry) {
+                composable.compose(entry = entry)
+            }
         } else {
             throw IllegalStateException("State is not defined for type '$stateClass'")
         }
@@ -56,7 +61,7 @@ internal class NavHostScopeImpl<STATE : Any>(
         key: KClass<S>,
         block: @Composable (entry: NavStackEntry<S>) -> Unit,
     ) {
-        composerByState[key] = Composer(block)
+        composerByState[key] = Composer(movableContentOf(block))
     }
 
     private fun observeNavigationEventsForValueStoreCleanup() {

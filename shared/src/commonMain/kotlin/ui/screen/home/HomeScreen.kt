@@ -15,44 +15,43 @@
  */
 package ui.screen.home
 
-import Screen
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import ui.component.ErrorContent
 import ui.component.PostCard
-import utils.navigation.NavStackEntry
 import utils.navigation.rememberInNavStack
 
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
     onNavigateToDetail: (Int) -> Unit,
-    navStackEntry: NavStackEntry<Screen.Home>,
 ) {
     val state by viewModel.state.collectAsState()
-    val lazyListState = navStackEntry.rememberInNavStack(
-        key = "scrollState",
-        compute = { LazyListState() },
-    )
 
     HomeContent(
         isLoading = state.isLoading,
         posts = state.posts,
         errorMessage = state.errorMessage,
         onNavigateToDetail = onNavigateToDetail,
-        lazyListState = lazyListState,
+        onRefresh = viewModel::refresh,
     )
 }
 
@@ -62,7 +61,7 @@ fun HomeContent(
     posts: List<HomeState.Post>,
     errorMessage: String?,
     onNavigateToDetail: (Int) -> Unit,
-    lazyListState: LazyListState,
+    onRefresh: () -> Unit,
 ) {
     Column(Modifier.fillMaxSize()) {
         TopAppBar(title = { Text("Foodium") })
@@ -71,32 +70,56 @@ fun HomeContent(
             ErrorContent(errorMessage)
         } else {
             Crossfade(isLoading, animationSpec = tween(500)) { isLoading ->
-                PostListContent(lazyListState, isLoading, posts, onNavigateToDetail)
+                PostListContent(
+                    isLoading = isLoading,
+                    posts = posts,
+                    onNavigateToDetail = onNavigateToDetail,
+                    onRefresh = onRefresh,
+                )
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun PostListContent(
-    lazyListState: LazyListState,
     isLoading: Boolean,
     posts: List<HomeState.Post>,
     onNavigateToDetail: (Int) -> Unit,
+    onRefresh: () -> Unit,
 ) {
-    LazyColumn(Modifier.fillMaxSize(), state = lazyListState) {
-        items(
-            items = if (isLoading) loadingPostCards else posts,
-            key = { it.id },
-        ) { post ->
-            PostCard(
-                isLoading = isLoading,
-                post = post,
-                modifier = Modifier.clickable(enabled = !isLoading) {
-                    onNavigateToDetail(post.id)
-                },
-            )
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = isLoading,
+        onRefresh = onRefresh,
+    )
+
+    val listState = rememberInNavStack(
+        key = "scrollState-$isLoading",
+        compute = { LazyListState() },
+    )
+
+    Box(Modifier.fillMaxSize().pullRefresh(pullRefreshState)) {
+        LazyColumn(Modifier.fillMaxSize(), state = listState) {
+            items(
+                items = if (isLoading) loadingPostCards else posts,
+                key = { it.id },
+            ) { post ->
+                PostCard(
+                    isLoading = isLoading,
+                    post = post,
+                    modifier = Modifier.clickable(enabled = !isLoading) {
+                        onNavigateToDetail(post.id)
+                    },
+                )
+            }
         }
+
+        PullRefreshIndicator(
+            refreshing = isLoading,
+            state = pullRefreshState,
+            modifier = Modifier.align(Alignment.TopCenter),
+        )
     }
 }
 
