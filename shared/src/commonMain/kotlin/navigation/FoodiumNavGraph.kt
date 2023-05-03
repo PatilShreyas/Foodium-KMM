@@ -1,3 +1,5 @@
+package navigation
+
 /**
  * Copyright 2023 Shreyas Patil
  *
@@ -24,7 +26,7 @@ import utils.navigation.rememberNavigationController
 
 @Composable
 fun FoodiumNavGraph() {
-    val navController = rememberNavigationController<Screen>()
+    val navController = rememberFoodiumScreenNavController()
 
     NavHost(navController, initialState = Screen.Home) {
         OnState<Screen.Home> {
@@ -48,3 +50,9 @@ fun FoodiumNavGraph() {
         }
     }
 }
+
+@Composable
+fun rememberFoodiumScreenNavController() = rememberNavigationController<Screen, Map<String, String>>(
+    onSave = { screen ->  screen.asSavable() },
+    onRestore = { savable -> buildScreenFromSavable(savable) }
+)

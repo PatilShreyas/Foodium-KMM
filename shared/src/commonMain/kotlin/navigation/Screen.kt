@@ -1,3 +1,5 @@
+package navigation
+
 /**
  * Copyright 2023 Shreyas Patil
  *
@@ -30,7 +32,7 @@ sealed interface Screen {
         }
 
         override fun hashCode(): Int {
-            return "home".hashCode()
+            return this::class.simpleName.hashCode()
         }
     }
 
