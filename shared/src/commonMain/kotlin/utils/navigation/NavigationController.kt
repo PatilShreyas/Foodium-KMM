@@ -16,10 +16,12 @@
 package utils.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.saveable.rememberSaveable
 import kotlinx.coroutines.flow.SharedFlow
 import utils.navigation.impl.NavigationControllerImpl
 import utils.navigation.impl.NavigationEvents
+import utils.navigation.impl.Stack
 
 /**
  * NavController manages app navigation within a [NavHost].
@@ -53,8 +55,22 @@ interface NavigationController<STATE> {
 
 /**
  * Remembers the navigation controller in this composition scope.
+ * Across process-death or screen configuration change, compose will lose state. In order to
+ * preserve states, [onSave] will be used to save the current state and [onRestore] will be used
+ * to re-construct the state to maintain the previous state of navigation.
  */
 @Composable
-fun <STATE : Any> rememberNavigationController(): NavigationController<STATE> {
-    return remember(Unit) { NavigationControllerImpl() }
+fun <STATE : Any, SAVABLE> rememberNavigationController(
+    onSave: (STATE) -> SAVABLE,
+    onRestore: (SAVABLE) -> STATE
+): NavigationController<STATE> {
+    return rememberSaveable(
+        Unit,
+        saver = listSaver(
+            save = { it.backStack.map { state -> onSave(state) } },
+            restore = { savables ->
+                NavigationControllerImpl(stack = Stack(savables.map { onRestore(it) }))
+            }
+        )
+    ) { NavigationControllerImpl() }
 }
