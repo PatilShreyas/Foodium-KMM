@@ -25,6 +25,7 @@ class InMemoryNavStackEntryStore<STATE : Any> {
     /**
      * Returns [NavStackEntry] for the [forState].
      */
+    @Suppress("UNCHECKED_CAST")
     fun get(forState: STATE): NavStackEntry<STATE> {
         return inMemoryValueStore.getOrPut(forState) {
             NavStackEntryImpl(forState)
