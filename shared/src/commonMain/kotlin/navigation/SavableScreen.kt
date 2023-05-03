@@ -43,7 +43,7 @@ fun buildScreenFromSavable(savable: Map<String, String>): Screen {
  * Creates savable Map for screen [S] having entry of [pairs] in the map
  */
 private inline fun <reified S : Screen> savable(
-    vararg pairs: Pair<String, String>
+    vararg pairs: Pair<String, String>,
 ) = buildMap<String, String> {
     put(KEY_SCREEN_NAME, screenName<S>())
     putAll(pairs)
