@@ -55,5 +55,5 @@ sealed interface Screen {
      * Details screen
      */
     @Immutable
-    data class Detail(val postId: Int) : Screen
+    data class PostDetail(val postId: Int) : Screen
 }

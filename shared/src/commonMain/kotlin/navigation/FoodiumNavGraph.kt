@@ -51,11 +51,11 @@ fun FoodiumNavGraph() {
 
             HomeScreen(
                 viewModel = viewModel,
-                onNavigateToDetail = { postId -> navController.navigateTo(Screen.Detail(postId)) },
+                onNavigateToDetail = { postId -> navController.navigateTo(Screen.PostDetail(postId)) },
             )
         }
 
-        OnState<Screen.Detail> {
+        OnState<Screen.PostDetail> {
             val postId = it.state.postId
             val viewModel = it.navStackViewModel(key = postId) {
                 AppComponent.viewModelComponent.providePostDetailViewModel(it, postId)
