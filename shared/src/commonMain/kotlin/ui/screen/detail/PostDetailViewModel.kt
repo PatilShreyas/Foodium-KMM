@@ -38,7 +38,12 @@ class PostDetailViewModel(
         viewModelScope.launch {
             _state.isLoading = true
 
-            val post = runCatching { repository.findPostById(postId) }.getOrNull()
+            val post = repository.findPostById(postId) ?: run {
+                // If first time, post is returned as null, load all posts again in case data is
+                // available.
+                loadAllPosts()
+                repository.findPostById(postId)
+            }
             if (post != null) {
                 _state.post = post.let {
                     PostDetailState.Post(
@@ -51,6 +56,11 @@ class PostDetailViewModel(
             } else {
                 _state.errorMessage = "Can't find the post"
             }
+            _state.isLoading = false
         }
+    }
+
+    private suspend fun loadAllPosts() {
+        repository.getAllPosts()
     }
 }

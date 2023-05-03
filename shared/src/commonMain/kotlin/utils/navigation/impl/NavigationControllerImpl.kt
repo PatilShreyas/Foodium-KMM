@@ -30,8 +30,8 @@ import utils.navigation.NavigationController
  */
 internal class NavigationControllerImpl<STATE : Any>(
     private val coroutineScope: CoroutineScope = MainScope(),
+    private val stack: Stack<STATE> = Stack(),
 ) : NavigationController<STATE> {
-    private val stack = Stack<STATE>()
 
     private val _events = MutableSharedFlow<NavigationEvents<STATE>>()
     override val events = _events.asSharedFlow()
@@ -39,6 +39,8 @@ internal class NavigationControllerImpl<STATE : Any>(
     override val currentState: STATE? get() = stack.top
 
     override val backStackSize: Int get() = stack.size
+
+    val backStack get() = stack.items
 
     private val mutex = Mutex()
 

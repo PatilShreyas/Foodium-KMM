@@ -24,6 +24,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeightIn
+import androidx.compose.foundation.layout.requiredWidthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
@@ -52,6 +54,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ui.component.ErrorContent
 import ui.component.PostGraphicImage
+import utils.accompanist.placeholder.PlaceholderHighlight
+import utils.accompanist.placeholder.placeholder
+import utils.accompanist.placeholder.shimmer
 import kotlin.math.max
 import kotlin.math.min
 
@@ -60,6 +65,7 @@ fun PostDetailScreen(viewModel: PostDetailViewModel, onNavigateUp: () -> Unit) {
     val state by viewModel.state.collectAsState()
 
     PostDetailContent(
+        isLoading = state.isLoading,
         post = state.post,
         errorMessage = state.errorMessage,
         onBackClick = onNavigateUp,
@@ -69,6 +75,7 @@ fun PostDetailScreen(viewModel: PostDetailViewModel, onNavigateUp: () -> Unit) {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PostDetailContent(
+    isLoading: Boolean,
     post: PostDetailState.Post?,
     errorMessage: String?,
     onBackClick: () -> Unit,
@@ -82,22 +89,29 @@ fun PostDetailContent(
                 title = post?.title ?: "",
                 scrollState = scrollState,
                 onBackClick = onBackClick,
+                modifier = Modifier.placeholder(
+                    visible = isLoading,
+                    highlight = PlaceholderHighlight.shimmer(),
+                ),
             )
         },
     ) {
-        Column(Modifier.fillMaxSize().verticalScroll(scrollState).padding(it)) {
-            when {
-                errorMessage != null -> {
-                    ErrorContent(errorMessage)
-                }
-                post != null -> {
-                    PostDetailContent(
-                        title = post.title,
-                        author = post.author,
-                        content = post.content,
-                        modifier = Modifier.padding(16.dp),
-                    )
-                }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+                .padding(it),
+        ) {
+            if (errorMessage != null) {
+                ErrorContent(errorMessage)
+            } else {
+                PostDetailContent(
+                    isLoading = isLoading,
+                    title = post?.title ?: "",
+                    author = post?.author ?: "",
+                    content = post?.content ?: "",
+                    modifier = Modifier.padding(16.dp),
+                )
             }
         }
     }
@@ -109,11 +123,12 @@ private fun TopBarContent(
     title: String,
     scrollState: ScrollState,
     onBackClick: () -> Unit,
+    modifier: Modifier,
 ) {
     val imageHeight by animateSizePerScrollState(250.dp, scrollState)
     val alphaPerScroll by animateAlphaPerScrollState(scrollState)
 
-    Box(Modifier.fillMaxWidth()) {
+    Box(modifier.fillMaxWidth()) {
         PostGraphicImage(
             url = headerImageUrl,
             modifier = Modifier
@@ -149,18 +164,26 @@ private fun TopBarContent(
 }
 
 @Composable
-private fun PostDetailContent(title: String, author: String, content: String, modifier: Modifier) {
+private fun PostDetailContent(
+    isLoading: Boolean,
+    title: String,
+    author: String,
+    content: String,
+    modifier: Modifier,
+) {
     Column(modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Text(
             text = title,
             style = MaterialTheme.typography.h5,
             fontWeight = FontWeight.Bold,
+            modifier = Modifier.fillMaxWidth().placeholder(isLoading, highlight = PlaceholderHighlight.shimmer()),
         )
         Text(
             text = "~ $author",
             style = MaterialTheme.typography.overline,
             fontSize = 14.sp,
             color = Color.DarkGray,
+            modifier = Modifier.requiredWidthIn(min = 120.dp).placeholder(isLoading, highlight = PlaceholderHighlight.shimmer()),
         )
         Text(
             text = content,
@@ -168,6 +191,7 @@ private fun PostDetailContent(title: String, author: String, content: String, mo
             fontFamily = FontFamily.Serif,
             fontSize = 16.sp,
             lineHeight = 24.sp,
+            modifier = Modifier.fillMaxWidth().requiredHeightIn(min = 240.dp).placeholder(isLoading, highlight = PlaceholderHighlight.shimmer()),
         )
     }
 }

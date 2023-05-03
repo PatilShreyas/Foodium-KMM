@@ -18,8 +18,13 @@ package utils.navigation.impl
 /**
  * The stack data structure
  */
-class Stack<E : Any> {
-    private val queue = ArrayDeque<E>()
+class Stack<E : Any>(initialItems: Collection<E> = emptyList()) {
+    private val queue = ArrayDeque<E>(initialItems)
+
+    /**
+     * Items in this stack
+     */
+    val items: List<E> get() = queue.toList()
 
     /**
      * Top element of this stack.

@@ -107,10 +107,14 @@ private fun <STATE : Any> rememberNavState(
     navigationController: NavigationController<STATE>,
     initialState: STATE,
 ): State<NavState<STATE>?> {
+    val initialValue = navigationController.currentState?.let {
+        NavState(it, NavigationAnimation.NO_ANIMATION)
+    }
+
     return produceState<NavState<STATE>?>(
         key1 = navigationController,
         key2 = initialState,
-        initialValue = null,
+        initialValue = initialValue,
     ) {
         navigationController.events
             .onSubscription {
