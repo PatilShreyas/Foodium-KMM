@@ -17,23 +17,14 @@ package navigation
 
 private val KEY_SCREEN_NAME = "screen_name"
 
-inline fun <reified SCREEN : Screen> screenName(): String = SCREEN::class.qualifiedName!!
-
 /**
  * Represents this [Screen] as Map
  */
-fun Screen.asSavable(): Map<String, String> {
-    val screen = this
-
-    return buildMap {
-        put(KEY_SCREEN_NAME, screenName<Screen>())
-
-        val data = when (screen) {
-            is Screen.Detail -> mapOf("postId" to screen.postId.toString())
-            is Screen.Home -> emptyMap()
-        }
-
-        putAll(data)
+fun <S : Screen> S.asSavable(): Map<String, String> {
+    return when (this) {
+        is Screen.Detail -> savable<Screen.Detail>("postId" to postId.toString())
+        is Screen.Home -> savable<Screen.Home>()
+        else -> error("Can't save state for screen: ${this@asSavable}. Reason: Undefined")
     }
 }
 
@@ -44,6 +35,18 @@ fun buildScreenFromSavable(savable: Map<String, String>): Screen {
     return when (val screenName = savable[KEY_SCREEN_NAME]) {
         screenName<Screen.Home>() -> Screen.Home
         screenName<Screen.Detail>() -> Screen.Detail(savable["postId"]!!.toInt())
-        else -> error("Can't restore state for $screenName because it's not defined.")
+        else -> error("Can't restore state for screen: $screenName. Reason: Undefined")
     }
 }
+
+/**
+ * Creates savable Map for screen [S] having entry of [pairs] in the map
+ */
+private inline fun <reified S : Screen> savable(
+    vararg pairs: Pair<String, String>
+) = buildMap<String, String> {
+    put(KEY_SCREEN_NAME, screenName<S>())
+    putAll(pairs)
+}
+
+inline fun <reified SCREEN : Screen> screenName(): String = SCREEN::class.qualifiedName!!
