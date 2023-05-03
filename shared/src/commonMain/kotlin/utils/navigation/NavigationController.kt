@@ -62,7 +62,7 @@ interface NavigationController<STATE> {
 @Composable
 fun <STATE : Any, SAVABLE> rememberNavigationController(
     onSave: (STATE) -> SAVABLE,
-    onRestore: (SAVABLE) -> STATE
+    onRestore: (SAVABLE) -> STATE,
 ): NavigationController<STATE> {
     return rememberSaveable(
         Unit,
@@ -70,7 +70,7 @@ fun <STATE : Any, SAVABLE> rememberNavigationController(
             save = { it.backStack.map { state -> onSave(state) } },
             restore = { savables ->
                 NavigationControllerImpl(stack = Stack(savables.map { onRestore(it) }))
-            }
-        )
+            },
+        ),
     ) { NavigationControllerImpl() }
 }

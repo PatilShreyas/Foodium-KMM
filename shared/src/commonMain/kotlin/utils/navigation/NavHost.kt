@@ -107,7 +107,6 @@ private fun <STATE : Any> rememberNavState(
     navigationController: NavigationController<STATE>,
     initialState: STATE,
 ): State<NavState<STATE>?> {
-
     val initialValue = navigationController.currentState?.let {
         NavState(it, NavigationAnimation.NO_ANIMATION)
     }
