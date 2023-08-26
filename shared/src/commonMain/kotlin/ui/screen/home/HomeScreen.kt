@@ -17,6 +17,7 @@ package ui.screen.home
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,8 +26,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lightbulb
+import androidx.compose.material.icons.outlined.Lightbulb
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -36,8 +41,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import ui.component.ErrorContent
 import ui.component.PostCard
+import ui.theme.LocalUiModePreferenceController
+import ui.theme.UiMode
+import ui.theme.rememberUiMode
 import utils.navigation.rememberInNavStack
 
 @Composable
@@ -65,7 +74,7 @@ fun HomeContent(
     onRefresh: () -> Unit,
 ) {
     Column(Modifier.fillMaxSize()) {
-        TopAppBar(title = { Text("Foodium") }, backgroundColor = Color.Black)
+        HomeAppBar()
 
         if (errorMessage != null) {
             ErrorContent(errorMessage)
@@ -80,6 +89,29 @@ fun HomeContent(
             }
         }
     }
+}
+
+@Composable
+private fun HomeAppBar() {
+    TopAppBar(
+        title = { Text("Foodium") },
+        backgroundColor = Color.Black,
+        actions = {
+            val controller = LocalUiModePreferenceController.current
+            val uiMode by rememberUiMode()
+
+            IconButton(onClick = controller::toggle) {
+                Image(
+                    imageVector = when (uiMode) {
+                        UiMode.DARK -> Icons.Outlined.Lightbulb
+                        UiMode.LIGHT -> Icons.Default.Lightbulb
+                    },
+                    contentDescription = "Toggle UI mode",
+                    colorFilter = ColorFilter.tint(Color.White)
+                )
+            }
+        }
+    )
 }
 
 @OptIn(ExperimentalMaterialApi::class)
