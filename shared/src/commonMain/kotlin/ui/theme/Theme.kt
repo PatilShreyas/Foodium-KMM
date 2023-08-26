@@ -15,14 +15,18 @@
  */
 package ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 
 @Composable
 fun FoodiumTheme(content: @Composable () -> Unit) {
-    MaterialTheme(
-        colors = if (isSystemInDarkTheme()) darkColors else lightColors,
-        content = content,
-    )
+    CompositionLocalProvider(LocalUiModePreferenceController provides UiModePreferenceController()) {
+        val uiMode by rememberUiMode()
+        MaterialTheme(
+            colors = if (uiMode === UiMode.DARK) darkColors else lightColors,
+            content = content,
+        )
+    }
 }
