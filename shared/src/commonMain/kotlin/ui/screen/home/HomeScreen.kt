@@ -107,10 +107,10 @@ private fun HomeAppBar() {
                         UiMode.LIGHT -> Icons.Default.Lightbulb
                     },
                     contentDescription = "Toggle UI mode",
-                    colorFilter = ColorFilter.tint(Color.White)
+                    colorFilter = ColorFilter.tint(Color.White),
                 )
             }
-        }
+        },
     )
 }
 

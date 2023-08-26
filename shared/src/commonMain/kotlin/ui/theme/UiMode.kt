@@ -1,3 +1,18 @@
+/**
+ * Copyright 2023 Shreyas Patil
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -33,7 +48,7 @@ fun rememberUiMode(): State<UiMode> {
 /**
  * Returns [UiMode.DARK] if [isInDarkMode] is true. Else [UiMode.LIGHT]
  */
-fun uiMode(isInDarkMode: Boolean): UiMode = when(isInDarkMode) {
+fun uiMode(isInDarkMode: Boolean): UiMode = when (isInDarkMode) {
     true -> UiMode.DARK
     false -> UiMode.LIGHT
 }
@@ -56,7 +71,7 @@ val LocalUiModePreferenceController =
 class UiModePreferenceController {
     private val _toggleRequests = MutableSharedFlow<Unit>(
         extraBufferCapacity = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
     val toggleRequests = _toggleRequests.asSharedFlow()
 
