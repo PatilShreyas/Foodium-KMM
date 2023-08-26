@@ -35,6 +35,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import ui.component.ErrorContent
 import ui.component.PostCard
 import utils.navigation.rememberInNavStack
@@ -64,7 +65,7 @@ fun HomeContent(
     onRefresh: () -> Unit,
 ) {
     Column(Modifier.fillMaxSize()) {
-        TopAppBar(title = { Text("Foodium") })
+        TopAppBar(title = { Text("Foodium") }, backgroundColor = Color.Black)
 
         if (errorMessage != null) {
             ErrorContent(errorMessage)
