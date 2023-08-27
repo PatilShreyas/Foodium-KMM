@@ -6,6 +6,6 @@ import di.component.AppComponent
 class FoodiumApp: Application() {
     override fun onCreate() {
         super.onCreate()
-        AppComponent.inject(this)
+        AppComponent.Injector.inject(this)
     }
 }
