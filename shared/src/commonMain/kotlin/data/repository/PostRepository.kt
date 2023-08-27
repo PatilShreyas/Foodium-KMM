@@ -16,6 +16,7 @@
 package data.repository
 
 import data.model.Post
+import kotlinx.coroutines.flow.Flow
 
 /**
  * The single source of truth for Posts
@@ -24,7 +25,7 @@ interface PostRepository {
     /**
      * Retrieves all the posts
      */
-    suspend fun getAllPosts(): List<Post>
+    fun getAllPosts(): Flow<List<Post>>
 
     /**
      * Searches for the post by [id] and returns

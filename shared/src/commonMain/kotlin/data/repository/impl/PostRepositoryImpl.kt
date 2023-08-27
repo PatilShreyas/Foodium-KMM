@@ -19,17 +19,30 @@ import data.datasource.cache.PostCacheDataSource
 import data.datasource.remote.PostRemoteDataSource
 import data.model.Post
 import data.repository.PostRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 
 /**
- * Default implementation for [PostRepository] that refers to the [PostRemoteDataSource] as
- * a data source
+ * Default implementation for [PostRepository] that refers to the [PostCacheDataSource] as a
+ * single source of truth for database and syncs it with the latest posts from [PostRemoteDataSource]
  */
 internal class PostRepositoryImpl(
     private val remoteDataSource: PostRemoteDataSource,
     private val cacheDataSource: PostCacheDataSource,
 ) : PostRepository {
-    override suspend fun getAllPosts(): List<Post> {
-        return remoteDataSource.getAllPosts().also { cacheDataSource.addAllPosts(it) }
+    override fun getAllPosts(): Flow<List<Post>> {
+        return flow {
+            // 1. Provide initial cached resource immediately
+            emit(cacheDataSource.getAllPosts().first())
+
+            // 2. Get data from a network and put in cache
+            cacheDataSource.replaceAllPosts(remoteDataSource.getAllPosts())
+
+            // 3. Observe cached data as a single source of truth only
+            emitAll(cacheDataSource.getAllPosts())
+        }
     }
 
     override suspend fun findPostById(id: Int): Post? {
