@@ -27,7 +27,6 @@ import kotlin.jvm.Volatile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.serialization.json.Json
-import utils.connectivity.ConnectivityInfo
 
 expect class AppContext
 
