@@ -15,6 +15,8 @@
  */
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.window.ComposeUIViewController
+import di.component.AppComponent
+import di.component.AppContext
 import utils.appfinisher.AppFinisher
 import utils.appfinisher.LocalAppFinisher
 
@@ -23,6 +25,8 @@ fun MainViewController() = ComposeUIViewController {
         App()
     }
 }
+
+fun inject() = AppComponent.Injector.inject(AppContext())
 
 fun iosAppFinisher(): AppFinisher {
     // There is no API provided for gracefully terminating an iOS application.
