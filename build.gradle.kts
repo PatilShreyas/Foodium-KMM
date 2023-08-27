@@ -6,6 +6,7 @@ plugins {
     id("com.android.library").apply(false)
     id("org.jetbrains.compose").apply(false)
     alias(libs.plugins.spotless)
+    alias(libs.plugins.sqldelight).apply(false)
 }
 
 subprojects {
