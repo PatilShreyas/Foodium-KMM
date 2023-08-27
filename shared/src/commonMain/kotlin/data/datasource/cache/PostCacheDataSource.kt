@@ -30,7 +30,7 @@ import kotlinx.coroutines.withContext
  */
 class PostCacheDataSource(
     private val db: FoodiumDb,
-    private val ioDispatcher: CoroutineDispatcher
+    private val ioDispatcher: CoroutineDispatcher,
 ) {
     /**
      * Adds [posts] in the cache
@@ -45,7 +45,7 @@ class PostCacheDataSource(
                         title = it.title,
                         author = it.author,
                         body = it.body,
-                        imageUrl = it.imageUrl
+                        imageUrl = it.imageUrl,
                     )
                 }
             }
@@ -74,6 +74,6 @@ class PostCacheDataSource(
         title = title,
         author = author,
         body = body,
-        imageUrl = imageUrl
+        imageUrl = imageUrl,
     )
 }

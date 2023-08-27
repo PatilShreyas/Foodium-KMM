@@ -23,10 +23,10 @@ import di.SqlDriverFactory
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
-import kotlin.jvm.Volatile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.serialization.json.Json
+import kotlin.jvm.Volatile
 
 expect class AppContext
 
@@ -72,7 +72,7 @@ internal class DefaultAppComponent(private val appContext: AppContext) : AppComp
     private val cacheDataSource by lazy {
         PostCacheDataSource(
             db = foodiumDb,
-            ioDispatcher = Dispatchers.IO
+            ioDispatcher = Dispatchers.IO,
         )
     }
     private val foodiumDb by lazy { FoodiumDb(provideDriverFactory(appContext).create()) }
