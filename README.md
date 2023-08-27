@@ -56,11 +56,11 @@ integrated in the app and _Work is in Progress..._
 - [x] Load images from network
 - [x] Use navigation framework
 - [x] Details screen UI
+- [x] Dark mode 🌓
 
 ### 🚧 Work in progress
 
 - [ ] Offline capability: Store posts data in local cache (Use SQLDelight)
-- [ ] Switch for dark/light theme.
 
 ## Setting up project 👨🏻‍💻
 

@@ -13,19 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
-import navigation.FoodiumNavGraph
-import ui.theme.FoodiumTheme
+package ui.theme
 
-/**
- * Entry point of the application.
- */
-@Composable
-fun App() {
-    FoodiumTheme {
-        Surface {
-            FoodiumNavGraph()
-        }
-    }
-}
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
+import androidx.compose.ui.graphics.Color
+
+val lightColors = lightColors(
+    primary = Color.Black,
+    surface = Color(0xFFF3F3F3),
+    background = Color(0xFFF3F3F3),
+)
+
+val darkColors = darkColors(
+    primary = Color(0xFF002022),
+    surface = Color(0xFF001719),
+    background = Color(0xFF001719),
+)

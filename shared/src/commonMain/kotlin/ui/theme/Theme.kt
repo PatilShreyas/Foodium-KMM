@@ -13,19 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
-import navigation.FoodiumNavGraph
-import ui.theme.FoodiumTheme
+package ui.theme
 
-/**
- * Entry point of the application.
- */
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+
 @Composable
-fun App() {
-    FoodiumTheme {
-        Surface {
-            FoodiumNavGraph()
-        }
+fun FoodiumTheme(content: @Composable () -> Unit) {
+    CompositionLocalProvider(LocalUiModePreferenceController provides UiModePreferenceController()) {
+        val uiMode by rememberUiMode()
+        MaterialTheme(
+            colors = if (uiMode === UiMode.DARK) darkColors else lightColors,
+            content = content,
+        )
     }
 }
