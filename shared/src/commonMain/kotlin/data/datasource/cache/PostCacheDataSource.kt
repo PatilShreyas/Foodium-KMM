@@ -15,32 +15,65 @@
  */
 package data.datasource.cache
 
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import data.model.Post
+import dev.shreyaspatil.foodium.db.FoodiumDb
+import dev.shreyaspatil.foodium.db.Posts
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 
 /**
  * Source of truth for data of Posts from cache
  */
-class PostCacheDataSource {
-    private val inMemoryCachedPosts = mutableMapOf<Int, Post>()
-
+class PostCacheDataSource(
+    private val db: FoodiumDb,
+    private val ioDispatcher: CoroutineDispatcher
+) {
     /**
      * Adds [posts] in the cache
      */
-    suspend fun addAllPosts(posts: List<Post>) {
-        inMemoryCachedPosts.putAll(posts.associateBy { it.id })
+    suspend fun replaceAllPosts(posts: List<Post>) = withContext(ioDispatcher) {
+        db.postsQueries.transaction {
+            db.postsQueries.run {
+                deleteAll()
+                posts.forEach {
+                    addPost(
+                        id = it.id.toLong(),
+                        title = it.title,
+                        author = it.author,
+                        body = it.body,
+                        imageUrl = it.imageUrl
+                    )
+                }
+            }
+        }
     }
 
     /**
      * Returns posts from the cache
      */
-    suspend fun getAllPosts(): List<Post> {
-        return inMemoryCachedPosts.values.toList()
+    fun getAllPosts(): Flow<List<Post>> {
+        return db.postsQueries
+            .selectAll()
+            .asFlow()
+            .mapToList(ioDispatcher).map { posts -> posts.map { it.asPost() } }
     }
 
     /**
      * Finds for post with [id] from the cache
      */
-    suspend fun findPostById(id: Int): Post? {
-        return inMemoryCachedPosts[id]
+    suspend fun findPostById(id: Int): Post? = withContext(ioDispatcher) {
+        db.postsQueries.findById(id.toLong()).executeAsOneOrNull()?.asPost()
     }
+
+    private fun Posts.asPost() = Post(
+        id = id.toInt(),
+        title = title,
+        author = author,
+        body = body,
+        imageUrl = imageUrl
+    )
 }
