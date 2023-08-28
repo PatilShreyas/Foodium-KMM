@@ -80,3 +80,8 @@ class UiModePreferenceController {
      */
     fun toggle() = _toggleRequests.tryEmit(Unit)
 }
+
+/**
+ * Singleton [UiModePreferenceController]
+ */
+val UiModeController = UiModePreferenceController()

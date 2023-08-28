@@ -22,7 +22,7 @@ import androidx.compose.runtime.getValue
 
 @Composable
 fun FoodiumTheme(content: @Composable () -> Unit) {
-    CompositionLocalProvider(LocalUiModePreferenceController provides UiModePreferenceController()) {
+    CompositionLocalProvider(LocalUiModePreferenceController provides UiModeController) {
         val uiMode by rememberUiMode()
         MaterialTheme(
             colors = if (uiMode === UiMode.DARK) darkColors else lightColors,
