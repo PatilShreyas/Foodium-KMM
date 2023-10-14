@@ -13,9 +13,18 @@ using **Jetpack Compose** 🚀.
 
 ## About 
 
-It simply loads posts data from API and displays them on the UI. The network API is a dummy (fixed)
-response which is _statically hosted 
-[here](https://patilshreyas.github.io/DummyFoodiumApi/api/posts/)_. The concept of this app is 
+It simply loads Posts data from API and stores it in persistence storage (i.e. SQLite Database). 
+Posts will be always loaded from local database. Remote data (from API) and Local data is always 
+synchronized.
+
+**Features:**
+
+- [x] Offline capability 📵
+- [x] Dark mode 🌓
+- [x] Clean and Simple Material UI 🎨
+
+The network API is a dummy (fixed) response which is _statically hosted
+[here](https://patilshreyas.github.io/DummyFoodiumApi/api/posts/)_. The concept of this app is
 originally taken from [this project](https://github.com/PatilShreyas/Foodium/).
 
 ### 📱 Preview
@@ -41,26 +50,9 @@ https://user-images.githubusercontent.com/19620536/235439532-457f0ccf-d18f-467d-
   - [Coroutines](https://github.com/Kotlin/kotlinx.coroutines): For multithreading
   - [Serialization](https://github.com/Kotlin/kotlinx.serialization): For JSON serialization/deserailization
 - [Ktor Client](https://github.com/ktorio/ktor): Performing HTTP requests, Creating image loading utility for iOS module.
+- [SQLDelight](https://github.com/cashapp/sqldelight): For persisting posts data in the local database
 - [Coil](https://github.com/coil-kt/coil): Image loading for Android
-- [Mutekt](https://github.com/PatilShreyas/mutekt): For UI state management 
-
-
-## TODOs
-
-Currently, it only shows a one Home screen with listing of posts. The following features will be
-integrated in the app and _Work is in Progress..._
-
-### ✅ Completed
-- [x] Home screen UI
-- [x] Load posts from network
-- [x] Load images from network
-- [x] Use navigation framework
-- [x] Details screen UI
-- [x] Dark mode 🌓
-
-### 🚧 Work in progress
-
-- [ ] Offline capability: Store posts data in local cache (Use SQLDelight)
+- [Mutekt](https://github.com/PatilShreyas/mutekt): For UI state management
 
 ## Setting up project 👨🏻‍💻
 
