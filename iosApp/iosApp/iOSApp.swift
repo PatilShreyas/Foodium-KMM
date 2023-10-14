@@ -4,9 +4,9 @@ import shared
 @main
 struct iOSApp: App {
     init() {
-        Main_iosKt.inject()
+        InjectorKt.inject()
     }
-    
+
 	var body: some Scene {
 		WindowGroup {
 			ContentView()
