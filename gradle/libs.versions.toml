@@ -1,15 +1,16 @@
 [versions]
-kotlin = "1.8.20"
-ksp = "1.8.20-1.0.10"
+kotlin = "1.8.22"
+ksp = "1.8.22-1.0.11"
 atomicfu = "0.21.0"
 coroutines = "1.7.3"
 mutekt = "1.0.1"
 ktor = "2.3.3"
 coil = "2.4.0"
-activity = "1.6.1"
+activity = "1.7.2"
 appcompat = "1.6.1"
-core = "1.9.0"
+core = "1.10.1"
 spotless = "6.18.0"
+sqldelight = "2.0.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
@@ -33,5 +34,12 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 mutekt-core = { module = "dev.shreyaspatil.mutekt:mutekt-core", version.ref = "mutekt" }
 mutekt-codegen = { module = "dev.shreyaspatil.mutekt:mutekt-codegen", version.ref = "mutekt" }
 
+sqldelight-driver-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
+sqldelight-driver-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
+sqldelight-driver-sqlite = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
+sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
+
 [plugins]
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }

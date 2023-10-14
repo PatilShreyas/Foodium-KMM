@@ -18,6 +18,8 @@ package ui.screen.home
 import base.ViewModel
 import data.repository.PostRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 /**
@@ -35,6 +37,8 @@ class HomeViewModel(
 
     override val state = _state.asStateFlow()
 
+    private var observePostsJob: Job? = null
+
     init {
         loadPosts()
     }
@@ -44,23 +48,33 @@ class HomeViewModel(
     }
 
     private fun loadPosts() {
-        viewModelScope.launch {
+        observePostsJob?.cancel()
+        observePostsJob = viewModelScope.launch {
             _state.isLoading = true
-            try {
-                val posts = repository.getAllPosts().map {
-                    HomeState.Post(
-                        id = it.id,
-                        title = it.title,
-                        author = it.author,
-                        imageUrl = it.imageUrl,
-                    )
+
+            repository.getAllPosts()
+                .catch {
+                    _state.update {
+                        if (posts.isEmpty()) {
+                            errorMessage = "Error occurred: ${it.message}"
+                        }
+                        isLoading = false
+                    }
                 }
-                _state.posts = posts
-            } catch (e: Throwable) {
-                _state.errorMessage = "Error occurred: ${e.message}"
-            } finally {
-                _state.isLoading = false
-            }
+                .collect { posts ->
+                    val postsState = posts.map {
+                        HomeState.Post(
+                            id = it.id,
+                            title = it.title,
+                            author = it.author,
+                            imageUrl = it.imageUrl,
+                        )
+                    }
+                    _state.update {
+                        this.posts = postsState
+                        this.isLoading = false
+                    }
+                }
         }
     }
 }

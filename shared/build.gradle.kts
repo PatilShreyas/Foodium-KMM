@@ -3,8 +3,9 @@ plugins {
     kotlin("native.cocoapods")
     id("com.android.library")
     id("org.jetbrains.compose")
-    id("com.google.devtools.ksp") version "1.8.20-1.0.11"
-    kotlin("plugin.serialization").version("1.8.20")
+    alias(libs.plugins.ksp)
+    kotlin("plugin.serialization") version libs.versions.kotlin.get()
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -43,6 +44,9 @@ kotlin {
                 // Mutekt
                 implementation(libs.mutekt.core)
 
+                // SQLDelight
+                implementation(libs.sqldelight.coroutines)
+
                 // KotlinX
                 implementation(libs.kotlinx.coroutines.core)
                 // This is not needed, but included to fix issue with compilation due to old version.
@@ -64,6 +68,9 @@ kotlin {
                 api(libs.androidx.appcompat)
                 api(libs.androidx.core.ktx)
 
+                // SQL
+                api(libs.sqldelight.driver.android)
+
                 // Ktor
                 api(libs.ktor.client.okhttp)
 
@@ -81,7 +88,16 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 implementation(libs.ktor.client.darwin)
+                implementation(libs.sqldelight.driver.native)
             }
+        }
+    }
+}
+
+sqldelight {
+    databases {
+        create("FoodiumDb") {
+            packageName.set("dev.shreyaspatil.foodium.db")
         }
     }
 }

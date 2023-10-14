@@ -18,10 +18,17 @@ package di.component
 import data.datasource.cache.PostCacheDataSource
 import data.datasource.remote.PostRemoteDataSource
 import data.repository.impl.PostRepositoryImpl
+import dev.shreyaspatil.foodium.db.FoodiumDb
+import di.SqlDriverFactory
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.serialization.json.Json
+import kotlin.jvm.Volatile
+
+expect class AppContext
 
 /**
  * App component for holding app dependencies
@@ -33,13 +40,27 @@ interface AppComponent {
      */
     val viewModelComponent: ViewModelComponent
 
-    companion object : AppComponent by DefaultAppComponent()
+    companion object : AppComponent by Injector.get()
+
+    object Injector {
+        @Volatile
+        private var instance: DefaultAppComponent? = null
+
+        fun inject(appContext: AppContext) {
+            if (instance == null) {
+                instance = DefaultAppComponent(appContext)
+            }
+        }
+
+        fun get(): AppComponent = instance ?: error("DI is not injected yet!")
+    }
 }
 
 /**
  * Default implementation of [AppComponent]
  */
-internal class DefaultAppComponent : AppComponent {
+internal class DefaultAppComponent(private val appContext: AppContext) : AppComponent {
+
     val postRepository by lazy {
         PostRepositoryImpl(
             remoteDataSource = remoteDataSource,
@@ -48,7 +69,13 @@ internal class DefaultAppComponent : AppComponent {
     }
 
     private val remoteDataSource by lazy { PostRemoteDataSource(provideHttpClient()) }
-    private val cacheDataSource by lazy { PostCacheDataSource() }
+    private val cacheDataSource by lazy {
+        PostCacheDataSource(
+            db = foodiumDb,
+            ioDispatcher = Dispatchers.IO,
+        )
+    }
+    private val foodiumDb by lazy { FoodiumDb(provideDriverFactory(appContext).create()) }
 
     private fun provideHttpClient(): HttpClient = HttpClient {
         install(ContentNegotiation) {
@@ -58,3 +85,5 @@ internal class DefaultAppComponent : AppComponent {
 
     override val viewModelComponent: ViewModelComponent by lazy { DefaultViewModelComponent(this) }
 }
+
+expect fun provideDriverFactory(appContext: AppContext): SqlDriverFactory

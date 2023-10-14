@@ -13,22 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package data.repository
+package di
 
-import data.model.Post
-import kotlinx.coroutines.flow.Flow
+import android.content.Context
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.driver.android.AndroidSqliteDriver
+import dev.shreyaspatil.foodium.db.FoodiumDb
 
-/**
- * The single source of truth for Posts
- */
-interface PostRepository {
-    /**
-     * Retrieves all the posts
-     */
-    fun getAllPosts(): Flow<List<Post>>
-
-    /**
-     * Searches for the post by [id] and returns
-     */
-    suspend fun findPostById(id: Int): Post?
+actual class SqlDriverFactory(private val context: Context) {
+    actual fun create(): SqlDriver {
+        return AndroidSqliteDriver(FoodiumDb.Schema, context, "foodium.db")
+    }
 }

@@ -13,22 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package data.repository
+package di.component
 
-import data.model.Post
-import kotlinx.coroutines.flow.Flow
+import di.SqlDriverFactory
 
 /**
- * The single source of truth for Posts
+ * Just declaration since no use at all
  */
-interface PostRepository {
-    /**
-     * Retrieves all the posts
-     */
-    fun getAllPosts(): Flow<List<Post>>
+actual class AppContext
 
-    /**
-     * Searches for the post by [id] and returns
-     */
-    suspend fun findPostById(id: Int): Post?
-}
+actual fun provideDriverFactory(appContext: AppContext): SqlDriverFactory = SqlDriverFactory()

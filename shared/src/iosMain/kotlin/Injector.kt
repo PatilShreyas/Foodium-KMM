@@ -13,22 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package data.repository
+import di.component.AppComponent
+import di.component.AppContext
 
-import data.model.Post
-import kotlinx.coroutines.flow.Flow
-
-/**
- * The single source of truth for Posts
- */
-interface PostRepository {
-    /**
-     * Retrieves all the posts
-     */
-    fun getAllPosts(): Flow<List<Post>>
-
-    /**
-     * Searches for the post by [id] and returns
-     */
-    suspend fun findPostById(id: Int): Post?
-}
+fun inject() = AppComponent.Injector.inject(AppContext())

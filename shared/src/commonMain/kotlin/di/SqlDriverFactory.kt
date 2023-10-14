@@ -13,22 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package data.repository
+package di
 
-import data.model.Post
-import kotlinx.coroutines.flow.Flow
+import app.cash.sqldelight.db.SqlDriver
 
-/**
- * The single source of truth for Posts
- */
-interface PostRepository {
-    /**
-     * Retrieves all the posts
-     */
-    fun getAllPosts(): Flow<List<Post>>
-
-    /**
-     * Searches for the post by [id] and returns
-     */
-    suspend fun findPostById(id: Int): Post?
+expect class SqlDriverFactory {
+    fun create(): SqlDriver
 }
